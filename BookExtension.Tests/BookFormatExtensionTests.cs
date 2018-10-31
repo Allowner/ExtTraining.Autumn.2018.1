@@ -11,7 +11,7 @@ namespace BookExtension.Tests
     [TestFixture]
     public class BookFormatExtensionTests
     {
-        public static Book testBook = new Book("C# in Depth", "Jon Skeet", "2019", "Manning", "4", "900", "40");
+        public static Book testBook = new Book("C# in Depth", "Jon Skeet", 2019, "Manning", 4, 900, 40m);
         [Test]
         public void BookFormatExtension_FormatBook_ReturnString()
         {

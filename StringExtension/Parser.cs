@@ -10,12 +10,14 @@ namespace StringExtension
     {
         public static int ToDecimal(this string source, int @base)
         {
+            int smallestValidBase = 2;
+            int greatestValidBase = 16;
             if (source == null)
             {
                 throw new ArgumentNullException("Source string is null");
             }
 
-            if (@base > 16 || @base < 2)
+            if (@base > greatestValidBase || @base < smallestValidBase)
             {
                 throw new ArgumentOutOfRangeException("Base out of range");
             }
@@ -30,14 +32,28 @@ namespace StringExtension
                 {
                     throw new ArgumentException("Wrong base");
                 }
+                
+                try
+                {
+                    checked
+                    {
+                        decimalIncrement = CharToInt(upperSourse[i]) * power;
+                        @decimal += decimalIncrement;
+                    }
 
-                decimalIncrement = CharToInt(upperSourse[i]) * power;
-                if(int.MaxValue - decimalIncrement < @decimal)
+                    if (i != 0)
+                    {
+                        power = checked(power * @base);
+                    }
+                    else
+                    {
+                        power *= @base;
+                    }
+                }
+                catch (OverflowException)
                 {
                     throw new ArgumentException("Too big value");
                 }
-                @decimal += decimalIncrement;
-                power = power * @base;
             }
 
             return @decimal;

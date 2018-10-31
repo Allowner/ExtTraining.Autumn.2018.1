@@ -7,19 +7,21 @@ using System.Threading.Tasks;
 
 namespace BookLibrary
 {
-    public class Book
+    public class Book : IFormattable
     {
         //TODO
         public readonly string title;
         public readonly string author;
-        public readonly string year;
+        public readonly int year;
         public readonly string publishingHous;
-        public readonly string edition;
-        public readonly string pages;
-        public readonly string price;
+        public readonly int edition;
+        public readonly int pages;
+        public readonly decimal price;
 
-        public Book(string title, string author, string year, string publishingHous,
-            string edition, string pages, string price)
+        
+
+        public Book(string title, string author, int year, string publishingHous,
+            int edition, int pages, decimal price)
         {
             this.title = title;
             this.author = author;
@@ -60,10 +62,10 @@ namespace BookLibrary
                 case "YPH":
                     return currentString + string.Format("{1}, {0}, {2}, '{3}'", title, author, year, publishingHous);
                 case "YPR":
-                    return currentString + string.Format("{1}, {0}, {2}, {3:C}", title, author, year, double.Parse(price));
+                    return currentString + string.Format("{1}, {0}, {2}, {3}", title, author, year, price.ToString("C", formatProvider));
                 case "ALL":
-                    return currentString + string.Format("{1}, {0}, {2}, '{3}', {4}, {5}, {6:C}",
-                       title, author, year, publishingHous, edition, pages, double.Parse(price));
+                    return currentString + string.Format("{1}, {0}, {2}, '{3}', {4}, {5}, {6}",
+                       title, author, year, publishingHous, edition, pages, price.ToString("C", formatProvider));
                 default:
                     throw new FormatException(string.Format("Format {0} is not supported!", format));
 
